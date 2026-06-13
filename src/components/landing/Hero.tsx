@@ -64,7 +64,8 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Hero imagery — content-map slot "hero" (16:9 → portrait crop on desktop) */}
+        {/* Hero imagery — content-map slot "hero". Slightly landscape so a
+            wide photo fills cleanly; gentle portrait on small phones. */}
         <motion.div
           initial={{ opacity: 0, scale: reduce ? 1 : 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -76,7 +77,7 @@ export function Hero() {
               seed="hero"
               tone="plum"
               label="The Eternal salon floor — a styling chair before a gold-lit mirror"
-              className="aspect-[4/5] w-full md:aspect-[16/12]"
+              className="aspect-[5/4] w-full xs:aspect-[4/3] md:aspect-[16/11]"
             />
           </div>
           <div className="absolute -bottom-5 -left-5 hidden h-24 w-24 border border-gold-soft md:block" aria-hidden="true" />

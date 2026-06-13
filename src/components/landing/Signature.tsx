@@ -57,12 +57,12 @@ export function Signature() {
                 i % 2 ? "md:[&>*:first-child]:order-2" : ""
               }`}
             >
-              <div className="keyline sheen">
+              <div className="keyline sheen mx-auto w-full md:mx-0 md:max-w-[460px]">
                 <Artwork
                   seed={x.seed}
                   tone={x.tone}
                   label={x.label}
-                  className="aspect-[4/5] w-full md:aspect-[5/4]"
+                  className="aspect-[4/5] w-full"
                 />
               </div>
               <div>
