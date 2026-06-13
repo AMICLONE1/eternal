@@ -1,9 +1,13 @@
 /**
- * Editorial artwork placeholders — local SVG compositions in the Ivory
- * Atelier palette. Every slot is documented in docs/CONTENT_MAP.md so the
- * real photo shoot replaces these one-for-one with zero layout change
- * (Design Document §6: explicit dimensions everywhere, no CLS).
+ * Editorial artwork slots. If a real photo exists for this seed (a file
+ * named <seed>.jpg/.png/.webp/.avif dropped into public/photos/, picked up
+ * by scripts/photo-manifest.mjs at build time) it is shown; otherwise a
+ * designed SVG placeholder in the Ivory Atelier palette renders in its place.
+ * Either way the box keeps the same dimensions — no layout shift, no CLS
+ * (Design Document §6). See docs/CONTENT_MAP.md for the slot list.
  */
+import Image from "next/image";
+import { PHOTO_MANIFEST } from "@/lib/photo-manifest";
 
 type Tone = "plum" | "ivory" | "gold";
 
@@ -39,6 +43,22 @@ export function Artwork({
   label: string;
   className?: string;
 }) {
+  // Real photo dropped into public/photos/<seed>.<ext>? Show it.
+  const photo = PHOTO_MANIFEST[seed.toLowerCase()];
+  if (photo) {
+    return (
+      <div className={`relative overflow-hidden ${className}`}>
+        <Image
+          src={photo}
+          alt={label}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
   const t = TONES[tone];
   const h = hash(seed);
   const cx = 25 + (h % 50);

@@ -1,9 +1,16 @@
 # Content Map — placeholder slots → real assets
 
-Every visual placeholder on the site is a designed SVG composition rendered by
-`src/components/Artwork.tsx`, identified by a `seed`. When the client's photo
-shoot lands, replace each `<Artwork …>` with `next/image` using this table —
-**same aspect ratio, zero layout change** (Design Document §6).
+## Photos: just drop files in `public/photos/`
+
+You no longer edit code to add photos. Each slot below has a `seed`; drop a
+file named **`<seed>.jpg`** (or `.png` / `.webp` / `.avif`) into
+`public/photos/` and that slot switches from the designed placeholder to your
+photo automatically — same dimensions, no layout shift. Empty slots keep the
+placeholder. Full filename list + shooting guide: `public/photos/README.md`.
+
+The mechanism: `scripts/photo-manifest.mjs` scans `public/photos/` before every
+build/dev start and writes `src/lib/photo-manifest.ts`; `Artwork.tsx` shows the
+photo when the seed has one, else the SVG.
 
 | Seed | Where | Aspect | The real photo should show |
 |------|-------|--------|---------------------------|

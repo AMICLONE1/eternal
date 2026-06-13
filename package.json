@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
-    "db:seed": "node --env-file=.env --experimental-strip-types scripts/seed-services.mjs"
+    "db:seed": "node --env-file=.env --experimental-strip-types scripts/seed-services.mjs",
+    "predev": "node scripts/photo-manifest.mjs",
+    "prebuild": "node scripts/photo-manifest.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.11",
