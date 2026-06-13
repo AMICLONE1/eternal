@@ -3,7 +3,7 @@ import { Cormorant_Garamond, Jost, Quicksand } from "next/font/google";
 import { SALON } from "@/lib/salon";
 import { SERVICES, CATEGORY_LABELS } from "@/lib/services";
 import { Loader } from "@/components/Loader";
-import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { FloatingActions } from "@/components/FloatingActions";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -172,7 +172,7 @@ export default function RootLayout({
         </a>
         <Loader />
         {children}
-        <WhatsAppFab />
+        <FloatingActions />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
