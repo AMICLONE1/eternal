@@ -1,4 +1,5 @@
 import { SALON } from "@/lib/salon";
+import { cleanEnv } from "@/lib/env";
 import { Reveal, CombStagger, CombTooth } from "../Reveal";
 import { Artwork } from "../Artwork";
 
@@ -29,7 +30,7 @@ interface BeholdPost {
 }
 
 async function fetchBeholdPosts(): Promise<BeholdPost[]> {
-  const feedId = process.env.BEHOLD_FEED_ID;
+  const feedId = cleanEnv(process.env.BEHOLD_FEED_ID);
   if (!feedId) return [];
   try {
     const res = await fetch(`https://feeds.behold.so/${feedId}`, {

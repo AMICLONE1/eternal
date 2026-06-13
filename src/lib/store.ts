@@ -12,6 +12,7 @@
  */
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
+import { cleanEnv } from "./env";
 import { SALON } from "./salon";
 import { getService } from "./services";
 import { slotEndFor } from "./slots";
@@ -52,8 +53,9 @@ const globalForDb = globalThis as unknown as {
 };
 
 function prisma(): PrismaClient | null {
-  if (!process.env.DATABASE_URL) return null;
-  return (globalForDb.__eternalPrisma ??= new PrismaClient());
+  const url = cleanEnv(process.env.DATABASE_URL);
+  if (!url) return null;
+  return (globalForDb.__eternalPrisma ??= new PrismaClient({ datasourceUrl: url }));
 }
 
 /** "HH:mm" → Date for a Postgres `time` column (Prisma maps time on 1970-01-01 UTC) */
@@ -69,8 +71,8 @@ function ymdToDate(d: string) {
 
 /* ---------------- tier 2: Supabase REST ---------------- */
 function supabase(): SupabaseClient | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = cleanEnv(process.env.NEXT_PUBLIC_SUPABASE_URL);
+  const key = cleanEnv(process.env.SUPABASE_SERVICE_ROLE_KEY);
   if (!url || !key) return null;
   return createClient(url, key, { auth: { persistSession: false } });
 }

@@ -3,17 +3,18 @@
  * email fallback via Resend, and loud logging. Never blocks the booking —
  * callers fire-and-forget after the DB insert succeeds.
  */
+import { cleanEnv } from "./env";
 import { format12h, formatDateLong } from "./slots";
 import { markWaNotified, type BookingRecord } from "./store";
 
-const WA_TOKEN = process.env.WHATSAPP_TOKEN;
-const WA_PHONE_ID = process.env.WHATSAPP_PHONE_ID;
-const WA_RECIPIENTS = (process.env.SALON_WA_RECIPIENTS ?? "")
+const WA_TOKEN = cleanEnv(process.env.WHATSAPP_TOKEN);
+const WA_PHONE_ID = cleanEnv(process.env.WHATSAPP_PHONE_ID);
+const WA_RECIPIENTS = (cleanEnv(process.env.SALON_WA_RECIPIENTS) ?? "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
-const RESEND_KEY = process.env.RESEND_API_KEY;
-const FALLBACK_EMAIL = process.env.SALON_FALLBACK_EMAIL;
+const RESEND_KEY = cleanEnv(process.env.RESEND_API_KEY);
+const FALLBACK_EMAIL = cleanEnv(process.env.SALON_FALLBACK_EMAIL);
 
 function messageBody(b: BookingRecord) {
   const services = b.services.map((s) => s.name).join(", ");
