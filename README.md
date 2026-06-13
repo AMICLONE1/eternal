@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Eternal — For Him & Her
 
-## Getting Started
+Premium unisex salon website: landing page + 4-step booking flow with WhatsApp
+alerts to the salon. Built per `../Eternal_PRD.md`, `../Eternal_TRD.md` and
+`../Eternal_Design_Document.md` (locked concept: **Ivory Atelier**).
 
-First, run the development server:
+## Stack
+
+Next.js 15 (App Router, TypeScript) · Tailwind CSS v4 · Framer Motion ·
+Supabase (Postgres) · Meta WhatsApp Cloud API · Resend (fallback) · Vercel.
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+No env vars are required for development: bookings persist to an in-memory
+store and WhatsApp alerts print to the server console. The full flow —
+availability, capacity checks, SLOT_FULL races, success screen — works as in
+production.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Going live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Supabase** — create a project, run `supabase/schema.sql` in the SQL
+   editor, copy URL + service-role key into `.env` (see `.env.example`).
+2. **WhatsApp Cloud API** — Meta Business verification + a sender number not
+   used in the consumer app (TRD §7). Set `WHATSAPP_TOKEN`,
+   `WHATSAPP_PHONE_ID`, `SALON_WA_RECIPIENTS`. Until then the `wa.me`
+   deep-link on the success screen is the live fallback (TRD §12).
+3. **Resend** — API key + `SALON_FALLBACK_EMAIL` so failed WhatsApp sends
+   alert the owner by email (FR-6).
+4. **Behold.so** — create a feed for @eternalforhimandher (JSON/API type),
+   set `BEHOLD_FEED_ID`; the Instagram strip switches from branded
+   placeholders to live posts, revalidated hourly, no client-side script.
+5. **Vercel** — import the repo, add env vars, attach the custom domain.
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+| Concern | Path |
+|---------|------|
+| Salon facts (address, hours, numbers, capacity) | `src/lib/salon.ts` |
+| Service menu (placeholder until client menu lands) | `src/lib/services.ts` |
+| Slot engine (IST, lead time, capacity) | `src/lib/slots.ts` |
+| Booking validation (shared client/server) | `src/lib/validation.ts` |
+| Persistence (Supabase ⇄ in-memory dev fallback) | `src/lib/store.ts` |
+| WhatsApp + email notify pipeline | `src/lib/notify.ts` |
+| API: availability / bookings | `src/app/api/*/route.ts` |
+| Landing sections | `src/components/landing/` |
+| Booking wizard | `src/components/booking/BookingWizard.tsx` |
+| Design tokens & motion CSS | `src/app/globals.css` |
+| Placeholder → real-photo swap guide | `docs/CONTENT_MAP.md` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Pending client inputs (PRD §10)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Service menu & prices · WhatsApp numbers · working hours · real photos &
+logo files · chair count · domain. Each has a marked placeholder — see
+`docs/CONTENT_MAP.md` for the exact file to touch.
 
-## Deploy on Vercel
+## Owner's booking list (Phase 1)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Supabase dashboard → Table editor → `bookings` (FR-10). Status flow:
+`pending → confirmed / completed / cancelled / no_show`.

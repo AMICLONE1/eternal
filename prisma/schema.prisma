@@ -1,0 +1,60 @@
+// Eternal — database schema (source of truth, replaces supabase/schema.sql).
+// Apply with: npx prisma db push   (needs DATABASE_URL/DIRECT_URL in .env.local)
+// Then run prisma/rls.sql once in the Supabase SQL editor (Prisma cannot
+// manage row-level security policies).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Booking {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// ETR-XXXXXX — computed app-side from the uuid (lib/store.ts)
+  reference    String   @unique
+  customerName String   @map("customer_name")
+  phone        String
+  /// [{slug, name, price, duration_min, category}]
+  services     Json
+  /// him | her | mixed
+  category     String?
+  date         DateTime @db.Date
+  slotStart    DateTime @map("slot_start") @db.Time(0)
+  slotEnd      DateTime @map("slot_end") @db.Time(0)
+  note         String?
+  /// pending | confirmed | completed | cancelled | no_show
+  status       String   @default("pending")
+  source       String   @default("website")
+  waNotified   Boolean  @default(false) @map("wa_notified")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([date, slotStart], map: "bookings_date_slot_idx")
+  @@map("bookings")
+}
+
+model Service {
+  slug        String  @id
+  name        String
+  /// him | her | everyone
+  category    String
+  groupName   String? @map("group_name")
+  /// null = price on request
+  price       Decimal? @db.Decimal(10, 2)
+  durationMin Int     @map("duration_min")
+  isActive    Boolean @default(true) @map("is_active")
+  sort        Int?
+
+  @@map("services")
+}
+
+model SalonConfig {
+  key   String @id
+  value Json
+
+  @@map("salon_config")
+}

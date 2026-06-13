@@ -1,26 +1,269 @@
 @import "tailwindcss";
 
+/* ============================================================
+   ETERNAL — Ivory Atelier design tokens (Design Document §2)
+   ============================================================ */
+@theme {
+  --color-ivory: #fbf8f3;
+  --color-ivory-deep: #f3ede2;
+  --color-plum-ink: #2e1f47;
+  --color-plum-soft: #6b5e7a;
+  --color-brand-purple: #7c4fb5;
+  --color-brand-purple-deep: #3d2a5c;
+  --color-gold: #c9a227;
+  --color-gold-soft: #e8d9a8;
+  --color-hairline: #e8e1d5;
+  --color-success: #3b6d11;
+  --color-error: #a32d2d;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body: var(--font-jost), Jost, "Segoe UI", sans-serif;
+  --font-brand: var(--font-quicksand), Quicksand, "Segoe UI", sans-serif;
+
+  --ease-atelier: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --breakpoint-xs: 22.5rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ivory);
+  color: var(--color-plum-ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 15.5px;
+  }
+}
+
+::selection {
+  background: var(--color-gold-soft);
+  color: var(--color-plum-ink);
+}
+
+/* Visible 2px gold focus rings (Design Document §8) */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Type helpers ---------- */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+@media (max-width: 640px) {
+  .eyebrow {
+    font-size: 11px;
+  }
+}
+
+/* ---------- M6: Strand underline (wavy gold hair-strand on hover) ---------- */
+.strand-link {
+  position: relative;
+  display: inline-block;
+}
+
+.strand-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 4px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 6' preserveAspectRatio='none'%3E%3Cpath d='M0 3 Q 12 0.5, 25 3 T 50 3 T 75 3 T 100 3' fill='none' stroke='%23C9A227' stroke-width='1.5'/%3E%3C/svg%3E");
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.45s var(--ease-atelier);
+}
+
+.strand-link:hover::after,
+.strand-link:focus-visible::after,
+.strand-link[aria-current="true"]::after {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---------- M8: Marquee ---------- */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 40s linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ---------- M5: Mirror sheen (diagonal light band sweep) ---------- */
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.sheen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 252, 240, 0.32) 50%,
+    transparent 65%
+  );
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.sheen:hover::before,
+.sheen.sheen-fire::before {
+  transition: transform 0.9s var(--ease-atelier);
+  transform: translateX(130%);
+}
+
+/* ---------- Image keyline (gold hairline on hover) ---------- */
+.keyline {
+  position: relative;
+}
+
+.keyline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-gold-soft);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-atelier);
+  pointer-events: none;
+}
+
+.keyline:hover::after {
+  opacity: 1;
+}
+
+/* ---------- M3: Scissor snip on CTA hover ---------- */
+.snip-cta .scissor-blade-a,
+.snip-cta .scissor-blade-b {
+  transition: transform 0.2s var(--ease-atelier);
+  transform-origin: 12px 12px;
+}
+
+.snip-cta:hover .scissor-blade-a,
+.snip-cta:focus-visible .scissor-blade-a {
+  transform: rotate(-12deg);
+}
+
+.snip-cta:hover .scissor-blade-b,
+.snip-cta:focus-visible .scissor-blade-b {
+  transform: rotate(12deg);
+}
+
+/* ---------- M11: Slot bloom ---------- */
+@keyframes slot-bloom {
+  from {
+    box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.55);
+  }
+  to {
+    box-shadow: 0 0 0 14px rgba(201, 162, 39, 0);
+  }
+}
+
+.slot-bloom {
+  animation: slot-bloom 0.3s var(--ease-atelier);
+}
+
+/* ---------- Eternal Line stroke draw ---------- */
+.line-draw {
+  stroke-dasharray: var(--line-length, 1000);
+  stroke-dashoffset: var(--line-length, 1000);
+}
+
+.line-draw.is-drawn {
+  transition: stroke-dashoffset 1.4s var(--ease-atelier);
+  stroke-dashoffset: 0;
+}
+
+/* ---------- Ambient drift for decorative salon-tool line art ---------- */
+@keyframes float-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+
+.float-slow {
+  animation: float-drift 14s ease-in-out infinite;
+}
+
+.float-slower {
+  animation: float-drift 20s ease-in-out infinite reverse;
+}
+
+/* ---------- Grain texture for artwork placeholders ---------- */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* ---------- Reduced motion: everything instant, opacity-only ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  .line-draw {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
 }
