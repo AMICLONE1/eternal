@@ -9,23 +9,27 @@ export const SALON = {
   shortName: "Eternal",
   tagline: "Beauty that lasts, eternally yours.",
   address: {
-    line1: "Plot No. 7, Sector 25",
+    line1: "Shop 5–8, Plot 7, Sector 25",
     line2: "Pradhikaran, Nigdi",
     city: "Pune",
     state: "Maharashtra",
     pincode: "411044",
   },
-  geo: { lat: 18.6549, lng: 73.7639 }, // Nigdi, Pradhikaran approx — refine with exact plot coords
+  geo: { lat: 18.6570349, lng: 73.7702048 }, // exact, from Google Places listing
   /** WhatsApp number (client, 12 Jun 2026); main landline to be added later */
   phoneDisplay: "+91 81808 61415",
   phoneE164: "+918180861415",
   whatsappNumber: "918180861415",
   instagram: "eternalforhimandher",
   instagramUrl: "https://instagram.com/eternalforhimandher",
+  /** The salon's real Google listing (Place ID + CID from Places API). */
+  googlePlaceId: "ChIJj2tqFea5wjsRjFLNdL5JCag",
+  /** "Get directions" → opens the actual salon listing, routed by Place ID. */
   mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Eternal+For+Him+%26+Her+Salon+Plot+No.+7+Sector+25+Pradhikaran+Nigdi+Pune+411044",
+    "https://www.google.com/maps/search/?api=1&query=ETERNAL%20FOR%20HIM%20%26%20HER%20UNISEX%20SALON&query_place_id=ChIJj2tqFea5wjsRjFLNdL5JCag",
+  /** Embedded map pinned to the exact salon (name + Place ID, no API key). */
   mapsEmbedUrl:
-    "https://www.google.com/maps?q=Sector+25,+Pradhikaran,+Nigdi,+Pune,+Maharashtra+411044&output=embed",
+    "https://maps.google.com/maps?q=ETERNAL%20FOR%20HIM%20%26%20HER%20UNISEX%20SALON,%20Sector%2025,%20Pradhikaran,%20Nigdi&output=embed&z=17",
   parkingNote: "Two-wheeler & car parking available in front of the salon.",
   /** TBD from client — per-weekday working hours (0 = Sunday … 6 = Saturday) */
   workingHours: {
