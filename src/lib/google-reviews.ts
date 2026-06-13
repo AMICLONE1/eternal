@@ -1,6 +1,7 @@
 /**
  * Live Google reviews via the Places API (New) — server-only, fetched at most
- * once a day (next.revalidate) so the salon stays well inside the free tier.
+ * once every ~5 days (next.revalidate) so the salon makes only ~6 Google
+ * requests a month — effectively free, and reviews rarely change faster.
  *
  * Setup (when ready):
  *   1. Google Cloud console → enable "Places API (New)" → create an API key.
@@ -63,9 +64,8 @@ export async function getGoogleReviews(): Promise<GoogleReviewsData | null> {
           "X-Goog-Api-Key": key,
           "X-Goog-FieldMask": "rating,userRatingCount,reviews",
         },
-        // Cache for a day — Google reviews don't change minute-to-minute and
-        // this keeps request volume negligible.
-        next: { revalidate: 86_400 },
+        // Revalidate every 5 days → ~6 Google requests/month (user cap).
+        next: { revalidate: 432_000 },
       },
     );
     if (!res.ok) {
@@ -91,6 +91,9 @@ export async function getGoogleReviews(): Promise<GoogleReviewsData | null> {
         };
       })
       .filter((r): r is Review => r !== null)
+      // Homepage testimonials are marketing space: show only strong reviews
+      // (the overall rating badge still reflects the true average from Google).
+      .filter((r) => r.rating >= 4)
       // Best ratings first (the API can't sort by date anyway).
       .sort((a, b) => b.rating - a.rating);
 

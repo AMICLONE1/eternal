@@ -12,6 +12,10 @@ import { Faq } from "@/components/landing/Faq";
 import { CtaBand } from "@/components/landing/CtaBand";
 import { Footer } from "@/components/landing/Footer";
 
+// Re-generate the page (and re-pull Google reviews) every 5 days via ISR —
+// ~6 fetches/month, and the page is served statically the rest of the time.
+export const revalidate = 432_000;
+
 export default function Home() {
   return (
     <>
