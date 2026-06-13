@@ -35,4 +35,4 @@ photo when the seed has one, else the SVG.
 | Parallel chairs (slot capacity) | `src/lib/salon.ts` (`slotCapacity`) |
 | Exact plot geo-coordinates | `src/lib/salon.ts` (`geo`) |
 | Domain | `.env` → `NEXT_PUBLIC_SITE_URL` |
-| Real Google reviews | `src/components/landing/Testimonials.tsx` (`REVIEWS`) |
+| Real Google reviews | Set `GOOGLE_PLACES_API_KEY` + `GOOGLE_PLACE_ID` (`.env`) for live fetch; else curated fallback in `src/components/landing/Testimonials.tsx` (`CURATED`) |
