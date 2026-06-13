@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Heavy client reference assets (kept locally, not shipped)
 brand-assets/
+.vercel

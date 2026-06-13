@@ -6,8 +6,7 @@ import { Artwork } from "@/components/Artwork";
 import { Reveal } from "@/components/Reveal";
 import { EternalUnderline } from "@/components/EternalLine";
 import { SALON } from "@/lib/salon";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://eternalforhimandher.com";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About Us — The Story of Eternal",

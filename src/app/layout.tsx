@@ -4,6 +4,7 @@ import { SALON } from "@/lib/salon";
 import { SERVICES, CATEGORY_LABELS } from "@/lib/services";
 import { Loader } from "@/components/Loader";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -28,8 +29,6 @@ const quicksand = Quicksand({
   weight: ["500", "600", "700"],
   display: "swap",
 });
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://eternalforhimandher.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BookingWizard } from "@/components/booking/BookingWizard";
 import { Logo } from "@/components/Logo";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://eternalforhimandher.com";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Book Your Appointment",
