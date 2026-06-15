@@ -110,6 +110,7 @@ export function Gallery() {
                   tone={t.tone}
                   label={t.label}
                   scrim="bottom"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
                   className={`w-full ${t.tall ? "aspect-[4/5]" : "aspect-square"}`}
                 />
                 {/* Caption fades up on hover — quiet editorial reveal. */}

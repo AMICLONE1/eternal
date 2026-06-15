@@ -30,6 +30,7 @@ interface SuccessData {
   date: string;
   slot: string;
   slotEnd: string;
+  manageUrl?: string;
 }
 
 /* ---------- M10: Eternal Line step indicator with gold nodes ---------- */
@@ -686,6 +687,15 @@ function SuccessScreen({ data, services }: { data: SuccessData; services: string
         Your chair is reserved. We&rsquo;ll message you if anything changes — quote your
         reference if you call.
       </p>
+      {data.manageUrl && (
+        <p className="mx-auto mt-3 max-w-[420px] text-[13.5px] text-plum-soft">
+          Need to change plans?{" "}
+          <Link href={data.manageUrl} className="strand-link text-brand-purple">
+            Reschedule or cancel your booking
+          </Link>{" "}
+          anytime.
+        </p>
+      )}
 
       <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a

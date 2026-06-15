@@ -29,6 +29,10 @@ export function VisitUs() {
                     {SALON.address.city}, {SALON.address.state} {SALON.address.pincode}
                   </p>
                   <p className="mt-1.5 text-[13.5px] text-plum-soft">{SALON.parkingNote}</p>
+                  <p className="mt-1.5 text-[13px] text-plum-soft">
+                    Welcoming guests from Pradhikaran, Nigdi, Akurdi, Chinchwad &amp;
+                    Ravet — minutes from Akurdi station.
+                  </p>
                   <a
                     href={SALON.mapsUrl}
                     target="_blank"

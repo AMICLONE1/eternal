@@ -154,6 +154,18 @@ const jsonLd = {
   },
 };
 
+/** WebSite node — declares the canonical site + publisher for richer SERP
+ *  treatment (sitelinks, brand panel) alongside the HairSalon entity. */
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: SALON.name,
+  inLanguage: "en-IN",
+  publisher: { "@id": `${SITE_URL}/#salon` },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -178,6 +190,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </body>
     </html>

@@ -119,6 +119,7 @@ export async function InstagramStrip() {
                     src={p.imageUrl}
                     alt={p.caption}
                     loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   {p.isVideo && (
@@ -144,7 +145,7 @@ export async function InstagramStrip() {
                   aria-label={p.label}
                   className="keyline sheen block"
                 >
-                  <Artwork seed={p.seed} tone={p.tone} label={p.label} className="aspect-square w-full" />
+                  <Artwork seed={p.seed} tone={p.tone} label={p.label} sizes="(max-width: 768px) 33vw, 16vw" className="aspect-square w-full" />
                 </a>
               </CombTooth>
             ))}

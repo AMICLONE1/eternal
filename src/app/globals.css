@@ -11,6 +11,9 @@
   --color-brand-purple: #7c4fb5;
   --color-brand-purple-deep: #3d2a5c;
   --color-gold: #c9a227;
+  /* AA-compliant gold for small text (eyebrows, labels) — clears 4.5:1 on
+     both ivory tones. Bright --color-gold stays for large/brand elements. */
+  --color-gold-ink: #7a6310;
   --color-gold-soft: #e8d9a8;
   --color-hairline: #e8e1d5;
   --color-success: #3b6d11;
@@ -73,7 +76,7 @@ body {
   font-weight: 400;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: var(--color-gold-ink);
 }
 
 @media (max-width: 640px) {

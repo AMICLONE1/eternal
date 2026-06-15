@@ -286,6 +286,106 @@ function memoryInsert(record: Omit<BookingRecord, "created_at">): BookingRecord 
   return full;
 }
 
+/** Map a Prisma booking row to the shared BookingRecord shape. */
+function prismaRowToRecord(row: {
+  id: string;
+  reference: string;
+  customerName: string;
+  phone: string;
+  services: unknown;
+  category: string | null;
+  date: Date;
+  slotStart: Date;
+  slotEnd: Date;
+  note: string | null;
+  status: string;
+  waNotified: boolean;
+  createdAt: Date;
+}): BookingRecord {
+  return {
+    id: row.id,
+    reference: row.reference,
+    customer_name: row.customerName,
+    phone: row.phone,
+    services: (row.services as BookingRecord["services"]) ?? [],
+    category: (row.category ?? "mixed") as BookingRecord["category"],
+    date: row.date.toISOString().slice(0, 10),
+    slot_start: dateToHHmm(row.slotStart),
+    slot_end: dateToHHmm(row.slotEnd),
+    note: row.note ?? "",
+    status: row.status,
+    wa_notified: row.waNotified,
+    created_at: row.createdAt.toISOString(),
+  };
+}
+
+/** Look up a single booking by its public reference (ETR-XXXXXX). */
+export async function getBookingByReference(
+  reference: string,
+): Promise<BookingRecord | null> {
+  const db = prisma();
+  if (db) {
+    try {
+      const row = await db.booking.findUnique({ where: { reference } });
+      return row ? prismaRowToRecord(row) : null;
+    } catch (err) {
+      return devFallback("Prisma lookup", err, () =>
+        memory.find((b) => b.reference === reference) ?? null,
+      );
+    }
+  }
+  const sb = supabase();
+  if (sb) {
+    const { data, error } = await sb
+      .from("bookings")
+      .select("*")
+      .eq("reference", reference)
+      .maybeSingle();
+    if (error) {
+      return devFallback("Supabase lookup", new Error(error.message), () =>
+        memory.find((b) => b.reference === reference) ?? null,
+      );
+    }
+    if (!data) return null;
+    return {
+      ...(data as BookingRecord),
+      date: String(data.date).slice(0, 10),
+      slot_start: String(data.slot_start).slice(0, 5),
+      slot_end: String(data.slot_end).slice(0, 5),
+      note: data.note ?? "",
+    };
+  }
+  return memory.find((b) => b.reference === reference) ?? null;
+}
+
+/** Cancel a booking by id. Idempotent; frees the slot for re-booking. */
+export async function cancelBooking(id: string): Promise<void> {
+  const db = prisma();
+  if (db) {
+    try {
+      await db.booking.update({ where: { id }, data: { status: "cancelled" } });
+      return;
+    } catch (err) {
+      devFallback("Prisma cancel", err, () => memoryCancel(id));
+      return;
+    }
+  }
+  const sb = supabase();
+  if (sb) {
+    const { error } = await sb.from("bookings").update({ status: "cancelled" }).eq("id", id);
+    if (error) {
+      devFallback("Supabase cancel", new Error(error.message), () => memoryCancel(id));
+    }
+    return;
+  }
+  memoryCancel(id);
+}
+
+function memoryCancel(id: string) {
+  const b = memory.find((x) => x.id === id);
+  if (b) b.status = "cancelled";
+}
+
 export async function markWaNotified(id: string) {
   const db = prisma();
   if (db) {

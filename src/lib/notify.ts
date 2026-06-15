@@ -5,6 +5,7 @@
  */
 import { cleanEnv } from "./env";
 import { format12h, formatDateLong } from "./slots";
+import { manageUrl } from "./manage-token";
 import { markWaNotified, type BookingRecord } from "./store";
 
 const WA_TOKEN = cleanEnv(process.env.WHATSAPP_TOKEN);
@@ -24,6 +25,7 @@ function messageBody(b: BookingRecord) {
     `Services: ${services}`,
     `🗓 ${formatDateLong(b.date)}, ${format12h(b.slot_start)}–${format12h(b.slot_end)}`,
     b.note ? `Note: ${b.note}` : null,
+    `Manage: ${manageUrl(b.id, b.reference)}`,
   ]
     .filter(Boolean)
     .join("\n");

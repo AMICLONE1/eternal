@@ -4,6 +4,7 @@ import { isBookableDate, isValidSlotStart } from "@/lib/slots";
 import { createBooking, SlotFullError } from "@/lib/store";
 import { notifySalon } from "@/lib/notify";
 import { rateLimitOk } from "@/lib/rate-limit";
+import { manageUrl } from "@/lib/manage-token";
 
 export const dynamic = "force-dynamic";
 
@@ -76,6 +77,7 @@ export async function POST(req: NextRequest) {
         date: booking.date,
         slot: booking.slot_start,
         slotEnd: booking.slot_end,
+        manageUrl: manageUrl(booking.id, booking.reference),
       },
       { status: 201 }
     );

@@ -27,8 +27,16 @@ const FAQS = [
     a: "Yes — signature bridal makeup, bridal trials, groom makeovers and pre-wedding rituals are our flagship services. These are designed on consultation, so book a visit or message us on WhatsApp and we'll plan your dates.",
   },
   {
+    q: "Which areas near Nigdi do you serve?",
+    a: "Eternal sits in Sector 25, Pradhikaran, so we're an easy ride for guests from Akurdi, Chinchwad, Ravet, Nigdi Gaothan, Bhakti-Shakti and the wider PCMC. We're minutes from Akurdi railway station and well connected for anyone travelling across Pune's western suburbs.",
+  },
+  {
+    q: "How much does a haircut or service cost at Eternal?",
+    a: "Our menu spans everyday cuts and grooming through to premium colour, keratin, skin rituals and bridal artistry. Prices shown on the site are indicative and confirmed at the salon after a quick consultation, so you always know the cost before we begin.",
+  },
+  {
     q: "How do I change or cancel my booking?",
-    a: `Message us on WhatsApp at ${SALON.phoneDisplay} with your booking reference (ETR-XXXXXX) and we'll reschedule you to a slot that works — no charges, no fuss.`,
+    a: `Easiest way: open the manage link in your booking confirmation to reschedule or cancel yourself in seconds. You can also message us on WhatsApp at ${SALON.phoneDisplay} with your reference (ETR-XXXXXX) — either way there are no charges and no fuss.`,
   },
 ];
 
@@ -47,7 +55,7 @@ export function Faq() {
     <section id="faq" className="px-6 py-16 md:py-24" aria-labelledby="faq-heading">
       <div className="mx-auto max-w-[840px]">
         <Reveal>
-          <p className="eyebrow mb-4 text-gold">Good to know</p>
+          <p className="eyebrow mb-4 text-gold-ink">Good to know</p>
           <h2 id="faq-heading" className="font-display text-[30px] text-plum-ink md:text-[44px]">
             Questions, answered
           </h2>

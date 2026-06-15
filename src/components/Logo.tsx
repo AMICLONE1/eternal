@@ -41,6 +41,7 @@ export function Logo({
         <>
           <span aria-hidden="true" className={`mt-[7px] block h-px w-full ${rule}`} />
           <span
+            aria-hidden="true"
             className={`mt-[6px] block font-body text-[8px] font-normal uppercase tracking-[0.34em] ${tagline}`}
           >
             For Him &amp; Her

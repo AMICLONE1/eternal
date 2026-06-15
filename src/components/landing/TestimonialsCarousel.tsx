@@ -70,7 +70,7 @@ export function TestimonialsCarousel({
               {review.quote}
             </p>
             <footer className="mt-6 flex flex-col items-center">
-              <div className="mb-2 flex justify-center gap-1 text-gold" aria-label={`${review.rating} star rating`}>
+              <div className="mb-2 flex justify-center gap-1 text-gold" role="img" aria-label={`${review.rating} star rating`}>
                 {Array.from({ length: review.rating }).map((_, i) => (
                   <StarIcon key={i} size={15} />
                 ))}
@@ -95,7 +95,7 @@ export function TestimonialsCarousel({
       </div>
 
       {reviews.length > 1 && (
-        <div className="mt-8 flex justify-center gap-2.5" role="tablist" aria-label="Reviews">
+        <div className="mt-6 flex justify-center" role="tablist" aria-label="Reviews">
           {reviews.map((_, i) => (
             <button
               key={i}
@@ -103,10 +103,16 @@ export function TestimonialsCarousel({
               aria-selected={i === index}
               aria-label={`Review ${i + 1}`}
               onClick={() => setIndex(i)}
-              className={`h-2 w-2 rounded-full transition-colors duration-300 ${
-                i === index ? "bg-gold" : "bg-hairline hover:bg-gold-soft"
-              }`}
-            />
+              // 24px hit target (a11y) wrapping an 8px visual dot.
+              className="group flex h-6 w-6 items-center justify-center"
+            >
+              <span
+                aria-hidden="true"
+                className={`h-2 w-2 rounded-full transition-colors duration-300 ${
+                  i === index ? "bg-gold" : "bg-hairline group-hover:bg-gold-soft"
+                }`}
+              />
+            </button>
           ))}
         </div>
       )}

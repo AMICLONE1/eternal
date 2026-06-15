@@ -58,8 +58,9 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-[72px] max-w-[1240px] items-center justify-between px-6">
-        <Link href="/" aria-label="Eternal — home" onClick={() => setOpen(false)}>
+        <Link href="/" onClick={() => setOpen(false)}>
           <Logo />
+          <span className="sr-only">eternal — home</span>
         </Link>
 
         <nav className="hidden items-center gap-9 lg:flex" aria-label="Main">

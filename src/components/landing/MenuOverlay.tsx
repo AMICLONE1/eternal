@@ -84,7 +84,7 @@ export function MenuOverlay({
             {/* header */}
             <div className="flex items-center justify-between border-b border-hairline px-6 py-4 md:px-9">
               <div>
-                <p className="eyebrow text-gold">The Complete Menu</p>
+                <p className="eyebrow text-gold-ink">The Complete Menu</p>
                 <h3 className="mt-1 font-display text-[24px] leading-none text-plum-ink md:text-[30px]">
                   Every service, every price
                 </h3>
@@ -129,7 +129,7 @@ export function MenuOverlay({
             <div className="flex-1 overflow-y-auto overscroll-contain px-6 pb-8 md:px-9">
               {groupedServices(tab).map(({ group, services }) => (
                 <div key={group}>
-                  <h4 className="eyebrow sticky top-0 z-10 -mx-2 bg-ivory px-2 pb-3 pt-6 text-gold">
+                  <h4 className="eyebrow sticky top-0 z-10 -mx-2 bg-ivory px-2 pb-3 pt-6 text-gold-ink">
                     {group}
                   </h4>
                   <ul className="divide-y divide-hairline border-t border-hairline">

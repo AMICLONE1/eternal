@@ -86,7 +86,7 @@ export default function AboutPage() {
         {/* ——— Editorial opening ——— */}
         <section className="px-6 pb-16 pt-36 md:pb-24 md:pt-44">
           <div className="mx-auto max-w-[1240px]">
-            <p className="eyebrow mb-5 text-gold">About Eternal · Nigdi, Pune</p>
+            <p className="eyebrow mb-5 text-gold-ink">About Eternal · Nigdi, Pune</p>
             <h1 className="font-display text-[40px] leading-[1.08] text-plum-ink md:max-w-[16ch] md:text-[64px]">
               One room. One standard.{" "}
               <em className="text-brand-purple">For him</em> and{" "}
@@ -139,7 +139,7 @@ export default function AboutPage() {
         <section className="px-6 py-16 md:py-28">
           <div className="mx-auto max-w-[840px]">
             <Reveal>
-              <p className="eyebrow mb-4 text-gold">The journey</p>
+              <p className="eyebrow mb-4 text-gold-ink">The journey</p>
               <h2 className="font-display text-[30px] text-plum-ink md:text-[44px]">
                 How Eternal came to be
               </h2>
@@ -171,7 +171,7 @@ export default function AboutPage() {
         <section className="border-y border-hairline bg-ivory-deep/60 px-6 py-16 md:py-24">
           <div className="mx-auto max-w-[1240px]">
             <Reveal>
-              <p className="eyebrow mb-4 text-gold">What we stand for</p>
+              <p className="eyebrow mb-4 text-gold-ink">What we stand for</p>
             </Reveal>
             <div className="mt-8 grid gap-10 md:grid-cols-3 md:gap-8">
               {VALUES.map((v, i) => (
