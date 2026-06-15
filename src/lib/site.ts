@@ -4,7 +4,10 @@
  */
 import { cleanEnv } from "./env";
 
-const FALLBACK = "https://eternalforhimandher.com";
+// The live deployment. Swap to the custom domain (e.g. eternalforhimandher.com)
+// once it's registered and connected in Vercel — and update NEXT_PUBLIC_SITE_URL
+// to match. Kept as the fallback so links never point at an unresolvable host.
+const FALLBACK = "https://eternalforhimandher.vercel.app";
 
 function resolve(): string {
   const v = cleanEnv(process.env.NEXT_PUBLIC_SITE_URL);
