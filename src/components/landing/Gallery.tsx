@@ -104,13 +104,18 @@ export function Gallery() {
         <CombStagger className="mt-14 columns-2 gap-5 lg:columns-3 [&>*]:mb-5">
           {TILES.map((t) => (
             <CombTooth key={t.seed} className="break-inside-avoid">
-              <div className="keyline sheen">
+              <div className="keyline sheen group relative">
                 <Artwork
                   seed={t.seed}
                   tone={t.tone}
                   label={t.label}
+                  scrim="bottom"
                   className={`w-full ${t.tall ? "aspect-[4/5]" : "aspect-square"}`}
                 />
+                {/* Caption fades up on hover — quiet editorial reveal. */}
+                <p className="pointer-events-none absolute inset-x-4 bottom-3 z-3 translate-y-2 text-[12.5px] leading-snug text-ivory opacity-0 transition-all duration-500 ease-atelier group-hover:translate-y-0 group-hover:opacity-100">
+                  {t.label}
+                </p>
               </div>
             </CombTooth>
           ))}

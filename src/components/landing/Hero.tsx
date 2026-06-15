@@ -76,6 +76,7 @@ export function Hero() {
             <Artwork
               seed="hero"
               tone="plum"
+              priority
               label="The Eternal salon floor — a styling chair before a gold-lit mirror"
               className="aspect-[5/4] w-full xs:aspect-[4/3] md:aspect-[16/11]"
             />

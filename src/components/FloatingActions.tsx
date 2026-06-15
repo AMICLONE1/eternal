@@ -4,6 +4,10 @@
  * Site-wide floating actions: a "Book Now" button stacked above a
  * "Chat on WhatsApp" button (FR-7). Hidden entirely on the booking flow
  * (/book) so they never overlap the sticky Continue/Review bar.
+ *
+ * On phones, booking already has a dedicated sticky bar (MobileBookingBar),
+ * so the "Book Now" FAB is desktop-only there and the WhatsApp FAB lifts to
+ * clear that bar.
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,11 +22,11 @@ export function FloatingActions() {
   if (pathname?.startsWith("/book")) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-center gap-3">
+    <div className="fixed bottom-21 right-5 z-40 flex flex-col items-center gap-3 sm:bottom-5">
       <Link
         href="/book"
         aria-label="Book an appointment"
-        className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-brand-purple text-ivory shadow-[0_4px_24px_rgba(124,79,181,0.4)] transition-transform duration-300 hover:scale-105"
+        className="group relative hidden h-14 w-14 items-center justify-center rounded-full bg-brand-purple text-ivory shadow-[0_4px_24px_rgba(124,79,181,0.4)] transition-transform duration-300 hover:scale-105 sm:flex"
       >
         <ScissorsIcon size={24} />
         <span className="pointer-events-none absolute right-[calc(100%+0.75rem)] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-[2px] bg-plum-ink px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-ivory opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:block">

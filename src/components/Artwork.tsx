@@ -20,6 +20,18 @@ const TONES: Record<
   gold: { from: "#E8D9A8", to: "#D4BC72", shape: "#C9A227", line: "#3D2A5C" },
 };
 
+/** Warm ivory blur placeholder (1×1 #e6dcc8) — fades up before the real
+ *  photo decodes. Pre-encoded so it works in client bundles too (no Buffer). */
+const BLUR_DATA =
+  "data:image/gif;base64,R0lGODlhAQABAPABAObcyAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
+
+/** Readability scrims, anchored to the edge where overlaid text sits. */
+const SCRIMS: Record<Exclude<Scrim, "none">, string> = {
+  bottom: "bg-gradient-to-t from-plum-ink/55 via-plum-ink/10 to-transparent",
+  top: "bg-gradient-to-b from-plum-ink/45 via-transparent to-transparent",
+  full: "bg-plum-ink/30",
+};
+
 /** Deterministic pseudo-random from a string seed, so art varies per slot. */
 function hash(seed: string) {
   let h = 2166136261;
@@ -30,11 +42,17 @@ function hash(seed: string) {
   return Math.abs(h);
 }
 
+/** Where overlaid text sits, so we lay a readability scrim from that edge. */
+type Scrim = "none" | "bottom" | "top" | "full";
+
 export function Artwork({
   seed,
   tone = "plum",
   label,
   className = "",
+  priority = false,
+  scrim = "none",
+  sizes = "(max-width: 768px) 100vw, 50vw",
 }: {
   /** content-map slot id, e.g. "hero", "gallery-3" */
   seed: string;
@@ -42,19 +60,36 @@ export function Artwork({
   /** accessible description of what the real photo will show */
   label: string;
   className?: string;
+  /** eager-load + high priority (use for the hero / above-the-fold only) */
+  priority?: boolean;
+  /** dark gradient scrim for text legibility over the photo */
+  scrim?: Scrim;
+  /** responsive sizes hint; override when the slot isn't ~half the viewport */
+  sizes?: string;
 }) {
   // Real photo dropped into public/photos/<seed>.<ext>? Show it.
   const photo = PHOTO_MANIFEST[seed.toLowerCase()];
   if (photo) {
     return (
-      <div className={`relative overflow-hidden ${className}`}>
+      <div className={`group/aw relative overflow-hidden ${className}`}>
         <Image
           src={photo}
           alt={label}
           fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover"
+          sizes={sizes}
+          priority={priority}
+          placeholder="blur"
+          blurDataURL={BLUR_DATA}
+          // Unified warm "atelier" grade + a slow, quiet zoom on hover so the
+          // amateur source photos read as one intentional, premium set.
+          className="object-cover filter-[saturate(1.06)_contrast(1.04)_brightness(1.01)] transition-transform duration-1200 ease-atelier group-hover/aw:scale-[1.045]"
         />
+        {scrim !== "none" && (
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-0 ${SCRIMS[scrim]}`}
+          />
+        )}
       </div>
     );
   }

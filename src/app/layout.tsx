@@ -4,6 +4,7 @@ import { SALON } from "@/lib/salon";
 import { SERVICES, CATEGORY_LABELS } from "@/lib/services";
 import { Loader } from "@/components/Loader";
 import { FloatingActions } from "@/components/FloatingActions";
+import { MobileBookingBar } from "@/components/MobileBookingBar";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -173,6 +174,7 @@ export default function RootLayout({
         <Loader />
         {children}
         <FloatingActions />
+        <MobileBookingBar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

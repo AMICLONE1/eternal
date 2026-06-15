@@ -110,7 +110,7 @@ export function Services() {
         >
           {services.map((s) => (
             <CombTooth key={s.slug}>
-              <article className="keyline group flex h-full flex-col border border-hairline bg-ivory p-7 transition-colors duration-300">
+              <article className="keyline group flex h-full flex-col border border-hairline bg-ivory p-7 transition-[transform,border-color,box-shadow] duration-300 ease-atelier hover:-translate-y-1 hover:border-gold-soft hover:shadow-[0_18px_40px_-24px_rgba(46,31,71,0.45)]">
                 <div className="flex items-start justify-between">
                   <span className="text-plum-ink">
                     <ServiceIcon name={s.icon} size={28} />
